@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 
 /**
- * Created by Messi10 on 02-Jun-15.
+ * Created by Abhijith Gururaj.
+ * This is a custom BST implementation in java.
+ * This uses BSTNode as the base ds for nodes.
  */
 public class BinarySearchTree {
     private BTNode root;
@@ -43,6 +45,7 @@ public class BinarySearchTree {
         root=delete(root,data);
     }
 
+    /* Yet to work on this */
     private BTNode delete(BTNode root, int data) {
         if(!contains(data))return null;
 

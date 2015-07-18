@@ -1,5 +1,7 @@
 /**
- * Created by Messi10 on 10-Jun-15.
+ * Created by Abhijith Gururaj.
+ * This is a Node implementation in java.
+ * This will be used by Binary trees and BSTs.
  */
 public class BTNode {
     private BTNode left,right;
@@ -11,6 +13,10 @@ public class BTNode {
 
     public int getData() {
         return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
     }
 
     public BTNode getLeft() {return left;}
@@ -25,9 +31,5 @@ public class BTNode {
 
     public void setRight(BTNode right) {
         this.right = right;
-    }
-
-    public void setData(int data) {
-        this.data = data;
     }
 }

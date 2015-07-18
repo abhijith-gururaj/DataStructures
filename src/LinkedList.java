@@ -1,12 +1,13 @@
 import java.util.Random;
 
 /**
- * Created by Messi10 on 07-Jun-15.
+ * Created by Abhijith Gururaj.
+ * This is a custom Linked List api in java.
  */
 public class LinkedList {
 
-    private Node node,head;
     int listcount;
+    private Node node, head;
 
     public LinkedList(){
         head=new Node(-1);
