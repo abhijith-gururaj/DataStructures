@@ -8,6 +8,10 @@ import java.util.ArrayList;
 public class BinarySearchTree {
     private BTNode root;
 
+    public BTNode getRoot() {
+        return root;
+    }
+
     public void insertNode(int data){
         root=insertNode(root,data);
     }
@@ -72,7 +76,11 @@ public class BinarySearchTree {
         return root;
     }
 
-    public int height(BTNode root){
+    public int height() {
+        return height(root);
+    }
+
+    private int height(BTNode root) {
         if (root==null)
             return 0;
         else
@@ -170,5 +178,24 @@ public class BinarySearchTree {
             return downLevel;
         else
             return nodeLevel(root.getRight(), data, level + 1);
+    }
+
+    public boolean isIdentical(BinarySearchTree tree2) {
+        BTNode root2 = tree2.getRoot();
+        return isIdentical(root, root2);
+    }
+
+    private boolean isIdentical(BTNode root, BTNode root2) {
+        if (root == null && root2 == null)
+            return false;
+
+        if (root != null && root2 != null) {
+            boolean left = isIdentical(root.getLeft(), root2.getLeft());
+            boolean right = isIdentical(root.getRight(), root2.getRight());
+
+            return root.getData() == root2.getData() && left && right;
+        }
+
+        return false;
     }
 }
