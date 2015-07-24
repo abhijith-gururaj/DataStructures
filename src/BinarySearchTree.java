@@ -198,4 +198,18 @@ public class BinarySearchTree {
 
         return false;
     }
+
+    public int getLeafCount() {
+        return getLeafCount(root);
+    }
+
+    private int getLeafCount(BTNode root) {
+        if (root == null)
+            return 0;
+
+        if (root.getLeft() == null && root.getRight() == null)
+            return 1;
+        else
+            return getLeafCount(root.getLeft()) + getLeafCount(root.getRight());
+    }
 }
