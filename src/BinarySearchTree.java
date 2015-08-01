@@ -212,4 +212,31 @@ public class BinarySearchTree {
         else
             return getLeafCount(root.getLeft()) + getLeafCount(root.getRight());
     }
+
+    public boolean isBST() {
+        return isBST(root);
+    }
+
+    private boolean isBST(BTNode root) {
+        if (root == null || (root.getLeft() == null && root.getRight() == null))
+            return true;
+
+        return checkNodeIntegrity(root) && isBST(root.getLeft()) && isBST(root.getRight());
+    }
+
+    private boolean checkNodeIntegrity(BTNode root) {
+        if (root == null) return false;
+
+        if (root.getLeft() == null) {
+            return root.getData() < root.getRight().getData();
+        }
+        if (root.getRight() == null) {
+            return root.getData() > root.getLeft().getData();
+        }
+
+        if (root.getData() < root.getRight().getData() && root.getData() > root.getLeft().getData())
+            return true;
+        else
+            return false;
+    }
 }

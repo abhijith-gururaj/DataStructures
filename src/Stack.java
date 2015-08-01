@@ -14,6 +14,17 @@ public class Stack {
         top.setNext(temp);
     }
 
+    public int size() {
+        return size(top);
+    }
+
+    private int size(Node top) {
+        if (top.getNext() == null)
+            return 1;
+
+        return size(top.getNext()) + 1;
+    }
+
     public int pop() {
         int data = top.getData();
         top = top.getNext();
