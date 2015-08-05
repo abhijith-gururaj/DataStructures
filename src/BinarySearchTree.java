@@ -204,13 +204,13 @@ public class BinarySearchTree {
     }
 
     private int getLeafCount(BTNode root) {
-        if (root == null)
+        if(root==null)
             return 0;
 
-        if (root.getLeft() == null && root.getRight() == null)
+        if(root.getLeft()==null&&root.getRight()==null)
             return 1;
         else
-            return getLeafCount(root.getLeft()) + getLeafCount(root.getRight());
+        return getLeafCount(root.getLeft())+getLeafCount(root.getRight());
     }
 
     public boolean isBST() {
@@ -239,4 +239,32 @@ public class BinarySearchTree {
         else
             return false;
     }
+
+    public void mirror(){
+        mirror(root);
+    }
+
+    private void mirror(BTNode root) {
+        if(root==null) {
+            return;
+        }
+        else {
+            mirror(root.getLeft());
+            mirror(root.getRight());
+            if (root.getLeft() != null && root.getRight() != null) {
+                BTNode temp = root.getLeft();
+                root.setLeft(root.getRight());
+                root.setRight(temp);
+            } else if (root.getLeft() == null) {
+                root.setLeft(root.getRight());
+                root.setRight(null);
+            } else {
+                root.setRight(root.getLeft());
+                root.setLeft(null);
+            }
+        }
+    }
+
+
+
 }

@@ -5,28 +5,36 @@ import java.util.ArrayList;
  */
 public class Main {
     public static void main(String[] args){
-//        LinkedList list=new LinkedList();
-//
-//        for (String arg : args) {
-//            list.addNode(Integer.parseInt(arg));
-//        }
-//
+        LinkedList list=new LinkedList();
+
+        for (String arg : args) {
+            list.addNode(Integer.parseInt(arg));
+        }
+
+        list.reverseHalves();
+
 //        System.out.println("Size is :"+list.size());
 //        System.out.println(list.toString());
-//        list.reverse();
-//        System.out.println("Reverse: "+list.toString());
-        BinarySearchTree tree = new BinarySearchTree();
-        tree.insertNode(5);
-        tree.insertNode(3);
-        tree.insertNode(7);
-        tree.insertNode(2);
-        tree.insertNode(4);
-        tree.insertNode(2);
-        tree.insertNode(8);
-        tree.insertNode(6);
-        System.out.println(tree.keys().toString());
-        System.out.println(tree.height());
-        tree.printLeftView();
-        tree.printRightView();
+//        list.printAlternateNodes();
+//        list.printNthNode(3);
+//        System.out.println("Middle node: "+list.midVal());
+//        list.skipMdeleteN(2,3);
+//        System.out.println(list.toString());
+//        System.out.println(list.toString());
+        //list.reverse();
+        //System.out.println("Reverse: "+list.toString());
+//        BinarySearchTree tree = new BinarySearchTree();
+//        tree.insertNode(5);
+//        tree.insertNode(3);
+//        tree.insertNode(7);
+//        tree.insertNode(2);
+//        tree.insertNode(4);
+//        tree.insertNode(2);
+//        tree.insertNode(8);
+//        tree.insertNode(6);
+//        System.out.println(tree.keys().toString());
+//        System.out.println(tree.height());
+//        tree.printLeftView();
+//        tree.printRightView();
     }
 }
