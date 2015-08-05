@@ -114,11 +114,11 @@ public class LinkedList {
             return;
 
         printReverse(root.getNext());
-        System.out.println(root.getData()+" ");
+        System.out.println(root.getData() + " ");
     }
 
     public void printNthNode(int n){
-        printNthNode(head,n);
+        printNthNode(head, n);
     }
 
     private void printNthNode(Node root, int n) {
@@ -213,5 +213,66 @@ public class LinkedList {
             temp=temp.getNext();
         }
         return temp.getData();
+    }
+    public void reverseHalves(){
+        Node start=head.getNext();
+        Node temp=start;
+        Node fastptr=start;
+        int count=2;
+        while(fastptr.getNext()!=null&&fastptr.getNext().getNext()!=null){
+            fastptr=fastptr.getNext().getNext();
+            temp=temp.getNext();
+            count+=2;
+        }
+
+        Node mid=temp;
+        if(fastptr.getNext()==null)
+            count++;
+        System.out.println("mid: "+mid.getData()+" : "+count);
+        if(count%2!=0){
+            Node prev=null,next=null;
+            temp=start;
+            while(temp!=mid){
+                next=temp.getNext();
+                temp.setNext(prev);
+                prev=temp;
+                temp=next;
+            }
+            start.setNext(mid);
+            head.setNext(prev);
+            temp=temp.getNext();
+            Node temp2=temp;
+            prev=null;
+            while(temp!=null){
+                next=temp.getNext();
+                temp.setNext(prev);
+                prev=temp;
+                temp=next;
+            }
+            mid.setNext(prev);
+            System.out.println(toString());
+        }else{
+            Node prev=null,next=null;
+            System.out.println(start.getData());
+            temp=start;
+            mid=mid.getNext();
+            while(temp!=mid){
+                //System.out.print(temp.getData()+" : ");
+                next=temp.getNext();
+                temp.setNext(prev);
+                prev=temp;
+                temp=next;
+            }
+            head.setNext(prev);
+            prev=null;
+            while(temp!=null){
+                next=temp.getNext();
+                temp.setNext(prev);
+                prev=temp;
+                temp=next;
+            }
+            start.setNext(prev);
+            System.out.println(toString());
+        }
     }
 }
