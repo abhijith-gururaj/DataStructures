@@ -11,7 +11,6 @@ public class BinarySearchTree {
     public BTNode getRoot() {
         return root;
     }
-
     public void insertNode(int data){
         root=insertNode(root,data);
     }
@@ -62,7 +61,7 @@ public class BinarySearchTree {
     public BTNode convertArrayToBst(int[] arr){
         if(arr==null) return null;
 
-        return convertArrayToBst(arr,0,arr.length-1);
+        return convertArrayToBst(arr, 0, arr.length - 1);
     }
 
     private BTNode convertArrayToBst(int[] arr, int start, int end) {
@@ -97,14 +96,15 @@ public class BinarySearchTree {
     }
 
     public void bft(){
-        for(int h=1;h<height(root);h++){
-            bft(root,h);
+        for(int h=1;h<=height(root);h++){
+            bft(root, h);
+            System.out.print("\n");
         }
     }
 
     private void bft(BTNode root, int h) {
         if(root==null) {
-            System.out.println("null");
+            System.out.print("null ");
         }else {
             if (h == 1) {
                 System.out.print(root.getData() + " ");
@@ -115,23 +115,69 @@ public class BinarySearchTree {
         }
     }
 
+    public void reversebft(){
+        for(int h=1;h<=height();h++){
+            reversebft(root,h);
+        }
+    }
+
+    private void reversebft(BTNode root, int h) {
+        if (root == null) {
+            System.out.print("Null ");
+        }
+        else{
+            if(h==height()){
+                System.out.print(root.getData()+" ");
+            }else{
+                reversebft(root.getLeft(),h+1);
+                reversebft(root.getRight(),h+1);
+            }
+        }
+    }
+
+    public void spiralbft(){
+        boolean order=false;
+     for(int h=1;h<=height(root);h++){
+         spiralbft(root,h,order);
+         order=!order;
+     }
+    }
+
+    private void spiralbft(BTNode root, int h,boolean order) {
+        if(root==null)
+            System.out.print("null ");
+        else{
+            if(h==1) {
+                System.out.print(root.getData() + " ");
+            }else if(h>1) {
+
+                if (order) {
+                    spiralbft(root.getLeft(), h - 1, true);
+                    spiralbft(root.getRight(), h - 1, true);
+                } else {
+                    spiralbft(root.getRight(), h - 1, false);
+                    spiralbft(root.getLeft(), h - 1, false);
+                }
+            }
+        }
+    }
+
     public ArrayList<Integer> keys(){
         ArrayList<Integer> list=new ArrayList<>();
-        keys(root,list);
+        keys(root, list);
         return list;
     }
 
     private void keys(BTNode root,ArrayList<Integer> Keys) {
         if(root==null) return;
-
         keys(root.getLeft(),Keys);
         Keys.add(root.getData());
-        keys(root.getRight(),Keys);
+        keys(root.getRight(), Keys);
     }
 
     public void printLeftView(){
         int[] maxLevel={0};
-        printLeftView(root,1,maxLevel);
+        printLeftView(root, 1, maxLevel);
     }
 
     private void printLeftView(BTNode root, int level, int[] maxLevel) {
@@ -140,13 +186,13 @@ public class BinarySearchTree {
             System.out.print(root.getData()+" ");
             maxLevel[0]=level;
         }
-        printLeftView(root.getLeft(),level+1,maxLevel);
-        printLeftView(root.getRight(),level+1,maxLevel);
+        printLeftView(root.getLeft(), level + 1, maxLevel);
+        printLeftView(root.getRight(), level + 1, maxLevel);
     }
 
     void printRightView(){
         int[] maxLevel={0};
-        printRightView(root,1,maxLevel);
+        printRightView(root, 1, maxLevel);
     }
 
     private void printRightView(BTNode root, int level, int[] maxLevel) {
@@ -187,7 +233,7 @@ public class BinarySearchTree {
 
     private boolean isIdentical(BTNode root, BTNode root2) {
         if (root == null && root2 == null)
-            return false;
+            return true;
 
         if (root != null && root2 != null) {
             boolean left = isIdentical(root.getLeft(), root2.getLeft());
@@ -218,10 +264,11 @@ public class BinarySearchTree {
     }
 
     private boolean isBST(BTNode root) {
-        if (root == null || (root.getLeft() == null && root.getRight() == null))
+        if (root == null || (root.getLeft() == null && root.getRight() == null)) {
             return true;
-
-        return checkNodeIntegrity(root) && isBST(root.getLeft()) && isBST(root.getRight());
+        }else {
+            return checkNodeIntegrity(root) && isBST(root.getLeft()) && isBST(root.getRight());
+        }
     }
 
     private boolean checkNodeIntegrity(BTNode root) {
@@ -265,6 +312,41 @@ public class BinarySearchTree {
         }
     }
 
+    public void printMinVal(){
+        boolean[] isPrinted={false};
+        printMinVal(root, isPrinted);
+    }
 
+    private void printMinVal(BTNode root,boolean[] isPrinted) {
+        if(root==null)
+            return;
+        else{
+            printMinVal(root.getLeft(), isPrinted);
+            if(!isPrinted[0]) {
+                System.out.println(root.getData());
+                isPrinted[0]=true;
+            }
+        }
+    }
 
+    public void changeValToSumOfChildren(){
+        root=changeValToSumOfChildren(root);
+    }
+
+    private BTNode changeValToSumOfChildren(BTNode root) {
+        if(root.getLeft()==null&&root.getRight()==null) {
+            return root;
+        }
+
+        if(root.getLeft()==null){
+            root.setData(root.getRight().getData());
+        }else if(root.getRight()==null){
+            root.setData(root.getLeft().getData());
+        }else{
+            root.setLeft(changeValToSumOfChildren(root.getLeft()));
+            root.setRight(changeValToSumOfChildren(root.getRight()));
+            root.setData(root.getLeft().getData()+root.getRight().getData());
+        }
+        return root;
+    }
 }

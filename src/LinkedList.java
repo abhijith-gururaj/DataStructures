@@ -125,12 +125,14 @@ public class LinkedList {
         int length=size();
 
         if(length<n) return;
-
+        int count=0;
         Node temp=root.getNext();
-        for(int i=0;i<length-n;i++){
+        while(temp!=null){
+            if(count==n)
+                break;
             temp=temp.getNext();
+            count++;
         }
-
         if(temp!=null)
         System.out.println(temp.getData());
     }
@@ -138,7 +140,7 @@ public class LinkedList {
     public int midVal(){
         Node currPtr=head.getNext(),nextPtr=head.getNext();
 
-        while(currPtr!=null&nextPtr!=null){
+        while(nextPtr!=null){
             currPtr=currPtr.getNext();
             nextPtr=currPtr.getNext();
         }
@@ -217,61 +219,107 @@ public class LinkedList {
     public void reverseHalves(){
         Node start=head.getNext();
         Node temp=start;
-        Node fastptr=start;
-        int count=2;
-        while(fastptr.getNext()!=null&&fastptr.getNext().getNext()!=null){
-            fastptr=fastptr.getNext().getNext();
+        Node fastPtr=start;
+        int count=0;
+        while(fastPtr.getNext()!=null&&fastPtr.getNext().getNext()!=null){
+            fastPtr=fastPtr.getNext().getNext();
             temp=temp.getNext();
             count+=2;
         }
 
-        Node mid=temp;
-        if(fastptr.getNext()==null)
+        if(fastPtr.getNext()==null)
             count++;
-        System.out.println("mid: "+mid.getData()+" : "+count);
-        if(count%2!=0){
-            Node prev=null,next=null;
-            temp=start;
-            while(temp!=mid){
-                next=temp.getNext();
-                temp.setNext(prev);
-                prev=temp;
-                temp=next;
-            }
-            start.setNext(mid);
-            head.setNext(prev);
+        else {
+            count += 2;
             temp=temp.getNext();
-            Node temp2=temp;
-            prev=null;
-            while(temp!=null){
-                next=temp.getNext();
-                temp.setNext(prev);
-                prev=temp;
-                temp=next;
+        }
+        Node mid=temp;
+        Node prev=null,next=null;
+        temp=start;
+        while(temp!=mid) {
+            next = temp.getNext();
+            temp.setNext(prev);
+            prev = temp;
+            temp = next;
+        }
+        head.setNext(prev);
+        prev=null;
+        Node temp2=null;
+        if(count%2!=0){
+            start.setNext(mid);
+            temp=temp.getNext();
+            temp2=mid;
+        }else{
+            temp2=start;
+        }
+        while(temp!=null){
+            next=temp.getNext();
+            temp.setNext(prev);
+            prev=temp;
+            temp=next;
+        }
+        temp2.setNext(prev);
+        System.out.println(toString());
+    }
+
+    public void deleteAlternates(){
+        deleteAlternates(head.getNext());
+        System.out.println(toString());
+    }
+
+    private void deleteAlternates(Node start) {
+
+        if(start==null)
+            return;
+        else if(start.getNext()==null){
+            return;
+        }
+        start.setNext(start.getNext().getNext());
+        deleteAlternates(start.getNext());
+    }
+
+    public void segregateEvenOdd(){
+        Node start=head.getNext();
+        Node temp=head.getNext();
+        Node curr=head.getNext();
+
+        while(temp.getNext()!=null){
+            temp=temp.getNext();
+        }
+        Node end=temp;
+
+        while(((curr.getData()) %2 != 0)&&curr!=end){
+                temp.setNext(curr);
+                curr=curr.getNext();
+                temp=temp.getNext();
+                temp.setNext(null);
+        }
+
+        if(curr.getData()%2==0) {
+            head.setNext(curr);
+            while (curr.getNext() != null && curr.getNext() != end) {
+                if (curr.getNext().getData() % 2 != 0) {
+                    temp.setNext(curr.getNext());
+                    System.out.println("odd: " + curr.getNext().getData());
+                    curr.setNext(curr.getNext().getNext());
+                    temp = temp.getNext();
+                    temp.setNext(null);
+                } else {
+                    System.out.println("even: " + curr.getNext().getData());
+                    curr = curr.getNext();
+                }
             }
-            mid.setNext(prev);
+            if (curr.getNext() == end) {
+                //System.out.println("end reached");
+                if (temp != end && end.getData() % 2 != 0) {
+                    temp.setNext(end);
+                    temp = temp.getNext();
+                    curr.setNext(curr.getNext().getNext());
+                    temp.setNext(null);
+                }
+            }
             System.out.println(toString());
         }else{
-            Node prev=null,next=null;
-            System.out.println(start.getData());
-            temp=start;
-            mid=mid.getNext();
-            while(temp!=mid){
-                //System.out.print(temp.getData()+" : ");
-                next=temp.getNext();
-                temp.setNext(prev);
-                prev=temp;
-                temp=next;
-            }
-            head.setNext(prev);
-            prev=null;
-            while(temp!=null){
-                next=temp.getNext();
-                temp.setNext(prev);
-                prev=temp;
-                temp=next;
-            }
-            start.setNext(prev);
             System.out.println(toString());
         }
     }
