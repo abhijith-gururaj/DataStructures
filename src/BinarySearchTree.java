@@ -44,18 +44,35 @@ public class BinarySearchTree {
             return root.getData() == data || contains(root.getRight(), data);
     }
 
+    public BTNode getMinNode(BTNode root){
+        while(root.getLeft()!=null){
+            root=root.getLeft();
+        }
+        return root;
+    }
+
     public void delete(int data){
         root=delete(root,data);
     }
 
-    /* Yet to work on this */
     private BTNode delete(BTNode root, int data) {
-        if(!contains(data))return null;
-
-        if(root.getData()==data)
-            root=null;
-
-        return null;
+        if (root == null)
+            return null;
+        if (root.getData() > data)
+            root.setLeft(delete(root.getLeft(), data));
+        else if (root.getData() < data)
+            root.setRight(delete(root.getRight(), data));
+        else {
+            if (root.getLeft() == null)
+                return root.getRight();
+            if (root.getRight() == null)
+                return root.getLeft();
+            BTNode temp=root;
+            root=getMinNode(temp.getRight());
+            root.setRight(deleteMinNode(temp.getRight()));
+            root.setLeft(temp.getLeft());
+        }
+        return root;
     }
 
     public BTNode convertArrayToBst(int[] arr){
@@ -150,7 +167,6 @@ public class BinarySearchTree {
             if(h==1) {
                 System.out.print(root.getData() + " ");
             }else if(h>1) {
-
                 if (order) {
                     spiralbft(root.getLeft(), h - 1, true);
                     spiralbft(root.getRight(), h - 1, true);
@@ -213,14 +229,14 @@ public class BinarySearchTree {
 
     private int nodeLevel(BTNode root, int data, int level){
         if (root == null)
-            return 0;
+            return -1;
 
         if (root.getData() == data)
             return level;
 
         int downLevel = nodeLevel(root.getLeft(), data, level + 1);
 
-        if (downLevel != 0)
+        if (downLevel != -1)
             return downLevel;
         else
             return nodeLevel(root.getRight(), data, level + 1);
@@ -287,46 +303,54 @@ public class BinarySearchTree {
             return false;
     }
 
+    public boolean isBST2(){
+
+        return isBST2(root,Integer.MAX_VALUE,Integer.MIN_VALUE);
+    }
+
+    private boolean isBST2(BTNode root,int max,int min) {
+        if(root==null)
+            return true;
+
+        return root.getData() > min && root.getData() < max && isBST2(root.getLeft(), root.getData(), min)
+                && isBST2(root.getRight(), max, root.getData());
+
+    }
+
     public void mirror(){
         mirror(root);
     }
 
     private void mirror(BTNode root) {
-        if(root==null) {
+        if (root == null)
             return;
-        }
-        else {
-            mirror(root.getLeft());
-            mirror(root.getRight());
-            if (root.getLeft() != null && root.getRight() != null) {
-                BTNode temp = root.getLeft();
-                root.setLeft(root.getRight());
-                root.setRight(temp);
-            } else if (root.getLeft() == null) {
-                root.setLeft(root.getRight());
-                root.setRight(null);
-            } else {
-                root.setRight(root.getLeft());
-                root.setLeft(null);
-            }
-        }
+
+        mirror(root.getLeft());
+        mirror(root.getRight());
+
+        BTNode temp = root.getLeft();
+        root.setLeft(root.getRight());
+        root.setRight(temp);
+
+    }
+
+    public void deleteMinNode(){
+        root=deleteMinNode(root);
+    }
+
+    private BTNode deleteMinNode(BTNode root) {
+        if(root.getLeft()==null) return root.getRight();
+
+        root.setLeft(deleteMinNode(root.getLeft()));
+
+        return root;
     }
 
     public void printMinVal(){
-        boolean[] isPrinted={false};
-        printMinVal(root, isPrinted);
-    }
-
-    private void printMinVal(BTNode root,boolean[] isPrinted) {
-        if(root==null)
-            return;
-        else{
-            printMinVal(root.getLeft(), isPrinted);
-            if(!isPrinted[0]) {
-                System.out.println(root.getData());
-                isPrinted[0]=true;
-            }
+        while(root.getLeft()!=null){
+            root=root.getLeft();
         }
+        System.out.println(root.getData());
     }
 
     public void changeValToSumOfChildren(){
@@ -349,4 +373,54 @@ public class BinarySearchTree {
         }
         return root;
     }
+
+    public int diameter(){
+        return diameter(root);
+    }
+    private int diameter(BTNode root){
+        if(root==null)
+            return 0;
+
+        int leftH=height(root.getLeft());
+        int rightH=height(root.getRight());
+
+        return(Math.max(leftH+rightH+1,Math.max(diameter(root.getLeft()),diameter(root.getRight()))));
 }
+
+    /**
+     * Created by Abhijith Gururaj.
+     * This is a Node implementation in java.
+     * This will be used by Binary trees and BSTs.
+     */
+    public static class BTNode {
+        private BTNode left,right;
+        private int data;
+
+        public BTNode(int data){
+            this.data=data;
+        }
+
+        public int getData() {
+            return data;
+        }
+
+        public void setData(int data) {
+            this.data = data;
+        }
+
+        public BTNode getLeft() {return left;}
+
+        public void setLeft(BTNode left) {
+            this.left = left;
+        }
+
+        public BTNode getRight() {
+            return right;
+        }
+
+        public void setRight(BTNode right) {
+            this.right = right;
+        }
+    }
+}
+

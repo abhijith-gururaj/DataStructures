@@ -1,6 +1,4 @@
-/**
- * Created by Messi10 on 07-Jun-15.
- */
+
 public class Stack {
     private Node top;
 
@@ -26,8 +24,31 @@ public class Stack {
     }
 
     public int pop() {
+        if(isEmpty())
+            throw new StackOverflowError("Stack is Empty.");
         int data = top.getData();
         top = top.getNext();
         return data;
+    }
+
+    public void printReverse(){
+        printReverse(top);
+    }
+
+    private void printReverse(Node top) {
+        if(top==null){
+            return;
+        }
+        printReverse(top.getNext());
+        System.out.println(top.getData());
+    }
+
+    public void printStack(){
+        Node temp=top;
+        while(top!=null){
+            System.out.println(top.getData());
+            top=top.getNext();
+        }
+        top=temp;
     }
 }
